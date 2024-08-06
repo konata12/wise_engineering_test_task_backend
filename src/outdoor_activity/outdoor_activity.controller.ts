@@ -9,15 +9,11 @@ export class OutdoorActivityController {
 
   @Post()
   create(@Body() createOutdoorActivityDto: CreateOutdoorActivityDto) {
-    console.log(new Date(createOutdoorActivityDto.date))
-    return this.outdoorActivityService.create(createOutdoorActivityDto);
+    return this.outdoorActivityService.createActivity(createOutdoorActivityDto);
   }
 
   @Get()
   findAll() {
-    const cc = new Date()
-    console.log(new Date())
-    console.log(typeof cc)
-    return this.outdoorActivityService.findAll();
+    return this.outdoorActivityService.findAllActivities();
   }
 }
