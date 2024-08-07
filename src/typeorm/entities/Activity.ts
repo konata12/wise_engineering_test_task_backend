@@ -1,3 +1,4 @@
+import { ActivityType } from "src/utils/types";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'activities' })
@@ -15,8 +16,8 @@ export class Activity {
     finishTime: string
 
     @Column()
-    distance: number
+    activityDistance: number
 
     @Column()
-    activityType: 'run' | 'ride'
+    activityType: ActivityType
 }

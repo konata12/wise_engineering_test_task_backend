@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateOutdoorActivityDto } from './dto/create-outdoor_activity.dto';
-import { UpdateOutdoorActivityDto } from './dto/update-outdoor_activity.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Activity } from 'src/typeorm/entities/Activity';
 import { Repository } from 'typeorm';
+import { ActivityType, CreateActivitiesParams } from 'src/utils/types';
 
 @Injectable()
 export class OutdoorActivityService {
@@ -12,11 +11,36 @@ export class OutdoorActivityService {
     @InjectRepository(Activity) private activityRepository: Repository<Activity>
   ) {}
 
-  createActivity(createOutdoorActivityDto: CreateOutdoorActivityDto) {
-    return 'This action adds a new outdoorActivity';
+  createActivity(activityDetails: CreateActivitiesParams) {
+    const newActivity = this.activityRepository.create({
+      ...activityDetails,
+      date: new Date()
+    })
+
+    return this.activityRepository.save(newActivity)
   }
 
   findAllActivities() {
-    return `This action returns all outdoorActivity`;
+    return this.activityRepository.find()
+  }
+
+  findLongestActivity(activityType: ActivityType) {
+    return this.activityRepository.findOne({
+      order: {
+        activityDistance: "DESC"
+      },
+      where: {
+        activityType: activityType
+      }
+    })
+  }
+
+  getTotalActivityDistance(activityType: ActivityType) {
+    return this.activityRepository.sum(
+      'activityDistance',
+      {
+        activityType: activityType
+      }
+    )
   }
 }
