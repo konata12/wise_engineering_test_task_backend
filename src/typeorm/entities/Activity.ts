@@ -15,7 +15,11 @@ export class Activity {
     @Column()
     finishTime: string
 
-    @Column()
+    @Column({
+        type: 'decimal',
+        precision: 10,
+        scale: 1
+    })
     activityDistance: number
 
     @Column()

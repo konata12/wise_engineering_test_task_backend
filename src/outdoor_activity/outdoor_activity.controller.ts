@@ -13,11 +13,19 @@ export class OutdoorActivityController {
 
   @Get()
   async findAll() {
-    const activities = await this.outdoorActivityService.findAllActivities()
-    const longestRun = await this.outdoorActivityService.findLongestActivity('run')
-    const longestRide = await this.outdoorActivityService.findLongestActivity('ride')
-    const totalRunDistance = await this.outdoorActivityService.getTotalActivityDistance('run')
-    const totalRideDistance = await this.outdoorActivityService.getTotalActivityDistance('ride')
+    const [
+      activities,
+      longestRun,
+      longestRide,
+      totalRunDistance,
+      totalRideDistance
+    ] = await Promise.all([
+      this.outdoorActivityService.findAllActivities(),
+      this.outdoorActivityService.findLongestActivity('run'),
+      this.outdoorActivityService.findLongestActivity('ride'),
+      this.outdoorActivityService.getTotalActivityDistance('run'),
+      this.outdoorActivityService.getTotalActivityDistance('ride')
+    ])
 
     return {
       activities,
